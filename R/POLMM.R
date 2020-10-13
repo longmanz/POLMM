@@ -149,7 +149,7 @@ POLMM = function(objNull,
     r = objNull$LOCOList[[chr]]$VarRatio
     muMat = objNull$LOCOList[[chr]]$muMat
     iRMat = objNull$LOCOList[[chr]]$iRMat
-    muMat1 = muMat[,-1*J]
+    muMat1 = muMat[,-1*J,drop=F]
     
     ## the following are the same for one chromosome
     objP = getobjP(objNull$Cova, yMat, muMat, iRMat)
@@ -226,7 +226,7 @@ POLMM = function(objNull,
         Ratio0 = VarW0/VarW
         
         res.spa <- fastSaddle_Prob(Stat, VarP, VarW, Ratio0, K1roots,
-                                   adjGVec[posG1], muMat1[posG1,], iRMat[posG1,])
+                                   adjGVec[posG1], muMat1[posG1,,drop=F], iRMat[posG1,,drop=F])
         pval.spa = res.spa$pval
         K1roots = res.spa$K1roots;
       }
@@ -267,7 +267,7 @@ fastSaddle_Prob = function(Stat,
                            iRMat)   # n1 x (J-1)
 {
   adjStat = Stat / sqrt(VarP)
-  n1 = nrow(muMat1)
+  n1= nrow(muMat1)
   J = ncol(muMat1) + 1
   adjGMat = matrix(adjGVec, n1, J-1)
   
@@ -420,8 +420,6 @@ fastGet_Saddle_Prob = function(Stat,
   
   return(pval)
 }
-
-
 
 
 
